@@ -32,7 +32,7 @@ let g:weather#cache_ttl = get(g:, 'weather#cache_ttl', '3600')
 
 let g:weather#unit = get(g:, 'weather#unit', 'metric')
 
-let g:weather#format = get(g:, 'weather#format', '%s %.0f'.s:unit[g:weather#unit])
+let g:weather#format = get(g:, 'weather#format', '%.0f'.s:unit[g:weather#unit].' %s')
 
 let g:weather#appid = get(g:, 'weather#appid', 'ed90eae4e8091ae0975288aeb85f9f74')
 
@@ -67,9 +67,9 @@ function! weather#get(forcerefresh) abort
   let area = json["name"]
   let status = json["weather"][0]["icon"][:2]
   let degree = json["main"]["temp"]
-  return printf(g:airline_right_alt_sep.' '.g:weather#format,
-  \ has_key(s:status, status) ? s:status[status] : '?',
-  \ degree)
+  return printf(' '.g:weather#format,
+  \ degree,
+  \ has_key(s:status, status) ? s:status[status] : '?')
   return ''
 endfunction
 
